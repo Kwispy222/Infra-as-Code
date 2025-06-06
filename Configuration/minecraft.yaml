@@ -1,0 +1,23 @@
+---
+- name: Add remote host dynamically
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Add remote host
+      add_host:
+        name: 35.95.83.185
+        groups: dynamic
+
+    - name: Copy Minecraft setup script to remote host
+      copy:
+        src: ./minecraft.sh
+        dest: /home/ubuntu/minecraft.sh
+        mode: '0755'
+      delegate_to: 35.95.83.185
+
+- name: Run script on remote host
+  hosts: 35.95.83.185
+  become: yes
+  tasks:
+    - name: Install and set up Minecraft server
+      shell: sh /home/ubuntu/minecraft.sh
