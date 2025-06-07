@@ -25,6 +25,7 @@ Here is a basic diagram to help visualize the pipeline:
 - Next, run `terraform apply -var "contents-of-public-key"`, where "contents-of-public-key" is the pasted contents of your public SSH key, to make the EC2 instance.
 - It will prompt for a value, enter "yes". When it is successful, it will provide two outputs: the instance public IP and the instance ID. Take note of them.
 - Then, navigate to the Configuration folder by running `cd ../Configuration/`.
+- As mentioned in the configuration section, make sure to replace the IP addresses with the public IP that we got from the terraform script output.
 - Once there, run `ansible-playbook minecraft.yaml --private-key <location-to-key> --user ubuntu`, where "\<location-to-key>" is the filepath to the private key of your keypair. This will allow the playbook to SSH into the EC2 instance, copy the `minecraft.sh` script, and run it on the instance. This playbook will take a while to run.
 - When the playbook finishes, assuming everything shows as passing, you can then connect to the minecraft server using the public IP that was an output of the terraform script.
 - If you need to reboot the server, you can run `aws ec2 reboot-instances --instance-ids <ID>` where \<ID> is the instance ID that was an output of the terraform script.
